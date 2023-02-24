@@ -8,9 +8,5 @@ namespace GKHCalc.Models.Enums
         User,
         [Localize("Админ")]
         Admin,
-        [Localize("Поставщик")] 
-        Supplier,
-        [Localize("Зав. склада")]
-        WarehouseMan,
     }
 }

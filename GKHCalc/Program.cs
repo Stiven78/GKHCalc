@@ -13,7 +13,7 @@ namespace GKHCalc
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Forms.Apartaments(1));
+            Application.Run(new Auth());
         }
     }
 }

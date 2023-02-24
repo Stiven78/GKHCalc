@@ -76,6 +76,12 @@
     <Compile Include="Forms\Auth.Designer.cs">
       <DependentUpon>Auth.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Objects\ChildForm\FillingMonth.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Objects\ChildForm\FillingMonth.Designer.cs">
+      <DependentUpon>FillingMonth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Objects\House.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,22 +94,28 @@
     <Compile Include="Forms\Menu.Designer.cs">
       <DependentUpon>Menu.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Objects\Indicators.cs">
+    <Compile Include="Forms\Objects\ChildForm\Indicators.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Objects\Indicators.Designer.cs">
+    <Compile Include="Forms\Objects\ChildForm\Indicators.Designer.cs">
       <DependentUpon>Indicators.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Objects\Payments.cs">
+    <Compile Include="Forms\Objects\ChildForm\Payments.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Objects\Payments.Designer.cs">
+    <Compile Include="Forms\Objects\ChildForm\Payments.Designer.cs">
       <DependentUpon>Payments.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Objects\RegisteredUser.cs">
+    <Compile Include="Forms\Objects\ChildForm\Rates.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Objects\RegisteredUser.Designer.cs">
+    <Compile Include="Forms\Objects\ChildForm\Rates.Designer.cs">
+      <DependentUpon>Rates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Objects\ChildForm\RegisteredUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Objects\ChildForm\RegisteredUser.Designer.cs">
       <DependentUpon>RegisteredUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Objects\User.cs">
@@ -117,15 +129,18 @@
     <Compile Include="Models\Enums\EMenuApartamentItem.cs" />
     <Compile Include="Models\Enums\EMenuHouseItem.cs" />
     <Compile Include="Models\Enums\EMenuItem.cs" />
+    <Compile Include="Models\Enums\ETypeRate.cs" />
     <Compile Include="Models\Enums\ETypeUsers.cs" />
     <Compile Include="Models\Interface\IAttribute.cs" />
     <Compile Include="Models\Objects\Base.cs" />
+    <Compile Include="Models\Objects\BalanceHouse.cs" />
     <Compile Include="Models\Objects\Indicators.cs" />
     <Compile Include="Models\Objects\Rates.cs" />
     <Compile Include="Models\Objects\Payments.cs" />
     <Compile Include="Models\Objects\RegisteredUser.cs" />
     <Compile Include="Models\Objects\House.cs" />
     <Compile Include="Models\Objects\Apartments.cs" />
+    <Compile Include="Models\Objects\FillingMonth.cs" />
     <Compile Include="Models\Objects\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -135,8 +150,10 @@
     <Compile Include="Service\Extensions\AttributeHelper.cs" />
     <Compile Include="Service\Extensions\EnumExtensions.cs" />
     <Compile Include="Service\Extensions\StringExtensions.cs" />
+    <Compile Include="Service\Helper\FormHelper.cs" />
     <Compile Include="Service\Helper\SqlHelperService.cs" />
     <Compile Include="Service\ObjectService.cs" />
+    <Content Include="SQlScript\1.sql" />
     <Content Include="SQlScript\SQlScripCreateBD.sql" />
     <EmbeddedResource Include="Forms\Auth.resx">
       <DependentUpon>Auth.cs</DependentUpon>
@@ -144,19 +161,25 @@
     <EmbeddedResource Include="Forms\Objects\Apartaments.resx">
       <DependentUpon>Apartaments.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Objects\ChildForm\FillingMonth.resx">
+      <DependentUpon>FillingMonth.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Objects\House.resx">
       <DependentUpon>House.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Objects\Indicators.resx">
+    <EmbeddedResource Include="Forms\Objects\ChildForm\Indicators.resx">
       <DependentUpon>Indicators.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Objects\Payments.resx">
+    <EmbeddedResource Include="Forms\Objects\ChildForm\Payments.resx">
       <DependentUpon>Payments.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Objects\RegisteredUser.resx">
+    <EmbeddedResource Include="Forms\Objects\ChildForm\Rates.resx">
+      <DependentUpon>Rates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Objects\ChildForm\RegisteredUser.resx">
       <DependentUpon>RegisteredUser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Objects\User.resx">

@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GKHCalc.Service.Extensions
@@ -21,7 +17,6 @@ namespace GKHCalc.Service.Extensions
 
             return r.IsMatch(strEmail);
         }
-
         public static bool IsValidNumber(this string str)
         {
             if (int.TryParse(str, out int Val) && Val > -1)
@@ -40,13 +35,12 @@ namespace GKHCalc.Service.Extensions
                 return true;
             return false;
         }
-
         public static bool ValidString(this string val, string Message, int CountSimbols = 0, Func<string, bool> func = null)
         {
-            if (string.IsNullOrEmpty(val) ||
-                (CountSimbols != 0 && CountSimbols == val.Length) ||
-                (func != null && !func(val))
-                )
+            bool isValid = string.IsNullOrEmpty(val);
+            isValid = isValid || !((CountSimbols != 0 && CountSimbols <= val.Length) || (CountSimbols == 0));
+            isValid = isValid || (func != null && !func(val));
+            if (isValid)
             {
                 MessageBox.Show(Message);
                 return true;

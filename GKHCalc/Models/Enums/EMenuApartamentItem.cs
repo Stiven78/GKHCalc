@@ -9,6 +9,8 @@ namespace GKHCalc.Models.Enums
         [Localize("Платежи")]
         Payments,
         [Localize("Прописаные пользователи")]
-        RegisteredUser
+        RegisteredUser,
+        [Localize("Заполнение месяца")]
+        FillingMonth
     }
 }

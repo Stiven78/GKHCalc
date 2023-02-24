@@ -22,6 +22,7 @@ namespace GKHCalc.Service.Extensions
             }
             return EnumList;
         }
+
         public static List<EnumList> LocalizeListEMenuItem()
         {
             List<EnumList> EnumList = new List<EnumList>();
@@ -55,6 +56,15 @@ namespace GKHCalc.Service.Extensions
             return EnumList;
         }
 
+        public static List<EnumList> LocalizeListETypeRate()
+        {
+            List<EnumList> EnumList = new List<EnumList>();
 
+            foreach (ETypeRate item in System.Enum.GetValues(typeof(ETypeRate)))
+            {
+                EnumList.Add(new EnumList() { Localize = item.Localize(), Name = item.ToString() });
+            }
+            return EnumList;
+        }
     }
 }

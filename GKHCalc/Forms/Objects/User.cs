@@ -1,13 +1,8 @@
 ﻿using GKHCalc.Service;
 using GKHCalc.Service.Extensions;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GKHCalc.Forms
@@ -35,6 +30,14 @@ namespace GKHCalc.Forms
             {
                 return;
             }
+
+            var User = ObjectService.GetsByWhere(UserCurent,$@" Email={Email.Text}").FirstOrDefault();
+            if (User != null && User.Id != UserCurent.Id)
+            {
+                MessageBox.Show("Пользователь с такой почтой уже есть в системе");
+                return;
+            }
+
             UserCurent.FirtsName = FirstName.Text;
             UserCurent.LastName = LastName.Text;
             UserCurent.Patranumic = Patranumic.Text;
@@ -49,7 +52,10 @@ namespace GKHCalc.Forms
 
         private void User_Load(object sender, EventArgs e)
         {
-           TypeUsers.Items.AddRange(EnumExtensions
+            label8.Visible = label9.Visible = TypeUsers.Visible = Enabled.Visible = (Auth.UserId > 0 && Auth.User.Id > 0 && Auth.User.TypeUser == 0) 
+                                                                                    || Auth.UserId == 0;
+
+            TypeUsers.Items.AddRange(EnumExtensions
                                    .LocalizeListTypeUser()
                                    .Select(en => en.Name)
                                    .ToArray());

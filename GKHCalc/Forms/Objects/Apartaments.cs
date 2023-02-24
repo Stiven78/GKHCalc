@@ -1,14 +1,11 @@
 ﻿using GKHCalc.Models;
 using GKHCalc.Service;
 using GKHCalc.Service.Extensions;
+using GKHCalc.Service.Helper;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ObjectModel = GKHCalc.Models.Objects;
 
@@ -39,6 +36,14 @@ namespace GKHCalc.Forms
                 MessageBox.Show("Необходимо добавить записи о домах или пользователях в систему");
                 this.Close();
             }
+
+            ObjectModel.User user = new ObjectModel.User();
+
+            if (Auth.UserId > 0)
+            {
+                user = ObjectService.GetById(user, Auth.UserId);
+            }
+
             HouseId.Items.AddRange(HouseList.Select(x => x.Addres).ToArray());
             ImportantUserId.Items.AddRange(UserList.Select(x => $@"{x.FirtsName} {x.LastName} {x.Patranumic}").ToArray());
             if (Id > 0)
@@ -54,11 +59,16 @@ namespace GKHCalc.Forms
                     SquareMeters.Text = ApartmentCurent.SquareMeters.ToString();
                     HouseId.SelectedIndex = HouseIdItem;//ApartmentCurent.HouseId;
                     ImportantUserId.SelectedIndex = UserId;//ApartmentCurent.ImportantUserId;
+                    ImportantUserId.Enabled = HouseId.Enabled = user != null && user.TypeUser == 1;
                 }
             }
-            listBox.Items.AddRange(new List<string>() { "Показатели", "Платежи", "Прописаные пользователи" }.ToArray());
-            listBox.SelectedIndex = 0;
 
+            enumListsMenu.ForEach((eMenu)=> {
+                apartamentMenu.Items.Add(eMenu.Localize);
+            });
+            GetData(null, null);
+            labData.Visible = false;
+            dataTpFilling.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -82,56 +92,83 @@ namespace GKHCalc.Forms
             this.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void GetData(object sender, FormClosedEventArgs e)
         {
-            OpenModal(-1);
+            dataGrid.DataSource = FormHelper.GetData(MenuItem, Id, FieldForWhere);
+            switch (MenuItem)
+            {
+                case "Indicators":
+                    dataGrid.Columns[0].Visible = false;
+                    dataGrid.Columns[3].Visible = false;
+                    dataGrid.Columns[1].HeaderText = "Показания";
+                    dataGrid.Columns[2].HeaderText = "Дата";
+                    dataGrid.Columns[4].HeaderText = "Тариф";
+                    break;
+                case "Payments":
+                    dataGrid.Columns[0].Visible = false;
+                    dataGrid.Columns[2].HeaderText = "Подтверждение";
+                    dataGrid.Columns[4].HeaderText = "Дата";
+                    dataGrid.Columns[3].HeaderText = "Сумма";
+                    break;
+                case "RegisteredUser":
+                    dataGrid.Columns[0].Visible = false;
+                    dataGrid.Columns[2].HeaderText = "Пользователь";
+                    dataGrid.Columns[3].HeaderText = "Дата прописки";
+                    break;
+                case "FillingMonth":
+                    dataGrid.Columns[0].Visible = false;
+                    dataGrid.Columns[1].Visible = false;
+                    dataGrid.Columns[2].HeaderText = "За человека";
+                    dataGrid.Columns[3].HeaderText = "По площади";
+                    dataGrid.Columns[4].HeaderText = "За квартиру";
+                    dataGrid.Columns[5].HeaderText = "По показаниям";
+                    dataGrid.Columns[5].Width = 110;
+                    dataGrid.Columns[6].HeaderText = "Дата";
+                    break;
 
+            }
         }
 
-        private void listBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            var CurentItem = enumListsMenu.Where(x => x.Localize == listBox.SelectedItem.ToString()).ToList();
+            var CurentItem = enumListsMenu.Where(x => x.Localize == e.ClickedItem.Text).ToList();
             if (CurentItem.Count > 0 &&
                 MenuItem != CurentItem[0].Name)
             {
-                MenuItem = CurentItem[0].Name;
+                MenuItem = CurentItem[0].Name;                
                 GetData(null, null);
+
+                labData.Visible = MenuItem == "FillingMonth";
+                dataTpFilling.Visible = MenuItem == "FillingMonth";
+
+                if (Auth.User != null &&
+                    Auth.User.Id > 0 &&
+                    Auth.User.TypeUser == 0)
+                {
+                    EditButton.Enabled = !(MenuItem == "RegisteredUser");
+                    DelButton.Enabled = false;
+                    AddButton.Enabled = !(MenuItem == "RegisteredUser");
+                }
             }
         }
 
-        private void GetData(object sender, FormClosedEventArgs e)
+        private void AddButton_Click(object sender, EventArgs e)
         {
-            switch (MenuItem)
-            {
-                case "Indicators":
-                    dataGrid.DataSource = ObjectService.GetsByFieldId(new ObjectModel.Indicators(), FieldForWhere, Id);
-                    break;
-                case "Payments":
-                    dataGrid.DataSource = ObjectService.GetsByFieldId(new ObjectModel.Payments(), FieldForWhere, Id);
-                    break;
-                case "RegisteredUser":
-                    dataGrid.DataSource = ObjectService.GetsByFieldId(new ObjectModel.RegisteredUser(), FieldForWhere, Id);
-                    break;
-            }
+            FormHelper.OpenModal(MenuItem, -1, GetData, parentId: Id, dateTime: dataTpFilling.Value);
         }
 
-        private void OpenModal(int ObjectId)
+        private void DelButton_Click(object sender, EventArgs e)
         {
-            Form form = new Form();
-            switch (MenuItem)
-            {
-                case "Indicators":
-                    form = new User(ObjectId);
-                    break;
-                case "Payments":
-                    form = new Apartaments(ObjectId);
-                    break;
-                case "RegisteredUser":
-                    form = new House(ObjectId);
-                    break;
-            }
-            form.Show();
-            form.FormClosed += GetData;
+            FormHelper.DeleteItem(dataGrid, MenuItem);
+            GetData(null, null);
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (!FormHelper.GetIdGridTable(dataGrid, out int objId) && objId == 0)
+                return;
+            FormHelper.OpenModal(MenuItem, objId, GetData, parentId: Id);
         }
     }
 }
+

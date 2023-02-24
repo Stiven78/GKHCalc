@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GKHCalc.Service
 {
@@ -20,7 +17,10 @@ namespace GKHCalc.Service
         /// <remarks></remarks>
         public SQLDataAccess()
         {
-            cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\Учеба(Улгту)\ПИ\v2\GKHCalc\GKHCalc\DB\DB.mdf;Integrated Security=True");
+            string projectDirecorty = AppDomain.CurrentDomain.BaseDirectory;
+            int indexBin = projectDirecorty.IndexOf("bin");
+            projectDirecorty = projectDirecorty.Remove(indexBin, projectDirecorty.Length - indexBin);
+            cn = new SqlConnection($@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename={projectDirecorty}DB\DB.mdf;Integrated Security=True");
             cmd = new SqlCommand { Connection = cn };
         }
 
@@ -49,7 +49,6 @@ namespace GKHCalc.Service
 
            // DataModificationFlag.SetLastModifiedSql(commandText, commandType);
         }
-
 
         public static void ExecuteNonQuery(string commandText, CommandType commandType, params SqlParameter[] parameters)
         {

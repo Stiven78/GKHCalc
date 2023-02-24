@@ -6,7 +6,7 @@ namespace GKHCalc.Models.Enums
     {
         [Localize("Тарифы")]
         Rates,
-        [Localize("Отчеты")]
-        Reports,
+        [Localize("Задолженность квартир")]
+        IndebtednessApartment,
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GKHCalc.Models.Objects
 {
@@ -11,6 +7,7 @@ namespace GKHCalc.Models.Objects
         public int Id { get; set; }
         public int ApartamentId { get; set; }
         public int UserId { get; set; }
+        public DateTime DateRegistration { get; set; }
         public override string Table() => "[dbo].[RegisteredUser]";
     }
 }

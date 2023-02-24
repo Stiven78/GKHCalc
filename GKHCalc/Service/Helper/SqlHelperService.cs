@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GKHCalc.Service.Helper
 {
@@ -89,6 +87,8 @@ namespace GKHCalc.Service.Helper
                         return SQLDataHelperFields.GetBool(reader, nameField);
                     case "Single":
                         return SQLDataHelperFields.GetFloat(reader, nameField);
+                    case "DateTime":
+                        return SQLDataHelperFields.GetDateTime(reader, nameField);
                 }
             }
             catch (Exception ex)

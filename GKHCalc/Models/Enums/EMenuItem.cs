@@ -9,8 +9,8 @@ namespace GKHCalc.Models.Enums
         [Localize("Квартиры")]
         Apartments,
         [Localize("Дома")]
-        House,        
-        [Localize("Отчеты")]
-        Reports,
+        House,
+        [Localize("Выход")]
+        Exit,
     }
 }

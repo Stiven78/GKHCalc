@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GKHCalc.Service
 {
     public static class SQLDataHelperFields
     {
-
         #region fields parse
 
         /// <summary>
@@ -96,7 +91,6 @@ namespace GKHCalc.Service
             return Convert.ToBoolean(rdr.GetValue(index));
         }
 
-
         /// <summary>
         /// Gets an integer value of a data reader by a column name
         /// </summary>
@@ -153,8 +147,6 @@ namespace GKHCalc.Service
                 return defaultValue;
             }
             return float.Parse(rdr.GetValue(index).ToString());
-        }
-
-        
+        }        
     }
 }

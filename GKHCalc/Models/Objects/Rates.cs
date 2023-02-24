@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GKHCalc.Models.Objects
+﻿namespace GKHCalc.Models.Objects
 {
     public class Rates : Base
     {
