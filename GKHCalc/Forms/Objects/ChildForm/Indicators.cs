@@ -1,5 +1,6 @@
 ﻿using GKHCalc.Service;
 using GKHCalc.Service.Extensions;
+using GKHCalc.Service.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -60,9 +61,9 @@ namespace GKHCalc.Forms.Objects
             ObjModel.Rates RateCurrent = _rates[cBTypeRate.SelectedIndex];
 
             var indicatorCurrent = ObjectService.GetsByWhere(_indicators, $@" month(Date)={dTDate.Value.Month}  and YEAR(Date)={dTDate.Value.Year} and RateId={RateCurrent.Id}");
-            if (indicatorCurrent.Count > 0)
+            if (indicatorCurrent.Count > 0 && !indicatorCurrent.Any(iC => iC.Id == _objId))
             {
-                MessageBox.Show("Данные уже введены за этот месяц");
+                FormHelper.ViewMessageError("Данные уже введены за этот месяц", "Ошибка");
                 return;
             }
 
@@ -70,6 +71,7 @@ namespace GKHCalc.Forms.Objects
             _indicators.Indication = int.Parse(tBIndicator.Text);
             _indicators.RateId = RateCurrent.Id;
             ObjectService.InsertOrUpdate(_indicators);
+            FormHelper.ViewMessageGood(_objId != 0 ? "Показания обновлены" : "Показания сохранены", "Показания");
             this.Close();
         }
     }

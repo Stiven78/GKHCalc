@@ -1,4 +1,6 @@
 ﻿using GKHCalc.Service;
+using GKHCalc.Service.Extensions;
+using GKHCalc.Service.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,6 +33,12 @@ namespace GKHCalc.Forms.Objects
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (
+                    cBUsers.SelectedIndex.ToString().ValidString("Нужно выбрать пользователя", func: StringExtensions.IsValidNumber)
+                )
+            {
+                return;
+            }
             ObjectModel.RegisteredUser registeredUser = new ObjectModel.RegisteredUser()
             {
                 ApartamentId = this.ApartamentId,
@@ -38,7 +46,8 @@ namespace GKHCalc.Forms.Objects
                 DateRegistration = dateRegistration.Value
             };
             ObjectService.InsertOrUpdate(registeredUser);
-            this.Close();
+            FormHelper.ViewMessageGood("Пользователь прописан", "Прописка");
+            Close();
         }
     }
 }

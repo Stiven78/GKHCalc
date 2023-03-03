@@ -1,5 +1,6 @@
 ﻿using GKHCalc.Service;
 using GKHCalc.Service.Extensions;
+using GKHCalc.Service.Helper;
 using System;
 using System.Data;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace GKHCalc.Forms.Objects
             if (
                     tbName.Text.ValidString("Некорректное название тарифа") ||
                     tbRate.Text.ValidString("Некорректное значение тарифа", func: StringExtensions.IsValidNumber) ||
-                    cbRates.SelectedIndex.ToString().ValidString("Некорректный тип тарифа", 1)
+                    cbRates.SelectedIndex.ToString().ValidString("Некорректный тип тарифа", 1, func: (str) => { return int.Parse(str) >= 0; })
                 )
             {
                 return;
@@ -61,6 +62,7 @@ namespace GKHCalc.Forms.Objects
             _rateCurrent.Rate = int.Parse(tbRate.Text);
             _rateCurrent.TypeRate = cbRates.SelectedIndex;
             ObjectService.InsertOrUpdate(_rateCurrent);
+            FormHelper.ViewMessageGood(_objId == -1 ? "Тариф сохранен" : "Тариф обновлен", "Тариф");
             this.Close();
         }
     }

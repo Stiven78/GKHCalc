@@ -1,5 +1,6 @@
 ﻿using GKHCalc.Service;
 using GKHCalc.Service.Extensions;
+using GKHCalc.Service.Helper;
 using System;
 using System.Windows.Forms;
 using OModel = GKHCalc.Models.Objects;
@@ -40,7 +41,7 @@ namespace GKHCalc.Forms.Objects
         private void Save_Click(object sender, EventArgs e)
         {
             if (
-                tBSum.Text.ValidString("Нужно заполнить адрес", func: StringExtensions.IsValidFloat) ||
+                tBSum.Text.ValidString("Нужно ввести сумму", func: StringExtensions.IsValidFloat) ||
                 dateTime.Value.ToString().ValidString("Некорректная дата",func: StringExtensions.IsValidDateTime)
                 )
             {
@@ -50,6 +51,7 @@ namespace GKHCalc.Forms.Objects
             payment.Date = dateTime.Value;
             payment.Validation = cBoxValidation.Checked;
             ObjectService.InsertOrUpdate(payment);
+            FormHelper.ViewMessageGood(_Id > 0 ? "Платеж обновлен" : "Платеж сохранен", "Платеж");
             this.Close();
         }
     }

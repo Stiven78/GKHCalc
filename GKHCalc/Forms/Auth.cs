@@ -1,5 +1,6 @@
 ﻿using GKHCalc.Models.Objects;
 using GKHCalc.Service;
+using GKHCalc.Service.Helper;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -23,15 +24,13 @@ namespace GKHCalc
             {
                 UserId = Customers.First().Id;
                 User = Customers.First();
-                MessageBox.Show("Авторизация выполнена");
+                FormHelper.ViewMessageGood("Авторизация выполнена", "Авторизация");
                 var Form = new Forms.Menu();
                 Form.Show();
                 this.Hide();
                 return;
             }
-
-            MessageBox.Show("Некорректные введенные данные");
-
+            FormHelper.ViewMessageError("Некорректные введенные данные", "Авторизация");
         }
         private void Registration_Click(object sender, EventArgs e)
         {

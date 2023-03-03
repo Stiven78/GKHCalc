@@ -56,7 +56,9 @@ namespace GKHCalc.Forms
         private void Delete_Click(object sender, EventArgs e)
         {
             FormHelper.DeleteItem(dataGrid,MenuItem);
+            FormHelper.ViewMessageGood("Успешно удалено","Удаление");
             GetData(null, null);
+
         }
 
         private void Edit_Click(object sender, EventArgs e)

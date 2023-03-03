@@ -1,4 +1,5 @@
 ﻿using GKHCalc.Service;
+using GKHCalc.Service.Helper;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -27,10 +28,11 @@ namespace GKHCalc.Forms.Objects.ChildForm
             if (monthFillings.Count > 0 &&
                 !monthFillings.Any(x=> x.Id == _fillingMonth.Id)) 
             {
-                MessageBox.Show("Запись на эту дату добавлено, отредактируйте запись");
+                FormHelper.ViewMessageError("Запись на эту дату добавлена, отредактируйте запись", "Ошибка");
                 return;
             }
             ObjectService.InsertOrUpdate(_fillingMonth);
+            FormHelper.ViewMessageGood("Запись за месяц сохранена", "Запись за месяц");
             this.Close();
         }
 

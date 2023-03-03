@@ -1,5 +1,6 @@
 ﻿using GKHCalc.Service;
 using GKHCalc.Service.Extensions;
+using GKHCalc.Service.Helper;
 using System;
 using System.Data;
 using System.Linq;
@@ -25,16 +26,16 @@ namespace GKHCalc.Forms
                 Patranumic.Text.ValidString("Некорректная отчество",3) ||
                 Email.Text.ValidString("Некорректный Email",func:StringExtensions.IsValidEmail) ||
                 Password.Text.ValidString("Некорректный пароль",3) ||
-                Phone.Text.ValidString("Некорректный номер телефона",11)
+                Phone.Text.ValidString("Некорректный номер телефона",11,func:StringExtensions.IsNotWhitespace)
                 ) 
             {
                 return;
             }
 
-            var User = ObjectService.GetsByWhere(UserCurent,$@" Email={Email.Text}").FirstOrDefault();
+            var User = ObjectService.GetsByWhere(UserCurent,$@" Email='{Email.Text}'").FirstOrDefault();
             if (User != null && User.Id != UserCurent.Id)
             {
-                MessageBox.Show("Пользователь с такой почтой уже есть в системе");
+                FormHelper.ViewMessageError("Пользователь с такой почтой уже есть в системе", "Пользователь");
                 return;
             }
 
@@ -47,19 +48,18 @@ namespace GKHCalc.Forms
             UserCurent.Enabled = Enabled.Checked;
             UserCurent.TypeUser = TypeUsers.SelectedIndex;
             ObjectService.InsertOrUpdate(UserCurent);
+            FormHelper.ViewMessageGood(Id == -1 ? "Пользователь сохранен" : "Пользователь обновлен", "Пользователь");
             this.Close();
         }
 
         private void User_Load(object sender, EventArgs e)
         {
-            label8.Visible = label9.Visible = TypeUsers.Visible = Enabled.Visible = (Auth.UserId > 0 && Auth.User.Id > 0 && Auth.User.TypeUser == 0) 
+            label8.Visible = label9.Visible = TypeUsers.Visible = Enabled.Visible = (Auth.UserId > 0 && Auth.User.Id > 0 && Auth.User.TypeUser == 1) 
                                                                                     || Auth.UserId == 0;
-
             TypeUsers.Items.AddRange(EnumExtensions
                                    .LocalizeListTypeUser()
                                    .Select(en => en.Name)
                                    .ToArray());
-
             if (Id > 0)
             {
                 UserCurent = ObjectService.GetById(UserCurent,Id);

@@ -93,7 +93,7 @@ namespace GKHCalc.Service.Helper
 
         public static void DeleteItem(DataGridView dataGrid, string MenuItem)
         {
-            var dialogResult = MessageBox.Show("Вы уверены что хотите удалить запись?", "Удаление", MessageBoxButtons.YesNo);
+            var dialogResult = MessageBox.Show("Вы уверены что хотите удалить запись?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
 
             if (dialogResult.ToString() == "No" || (!FormHelper.GetIdGridTable(dataGrid, out int objId) && objId == 0))
@@ -139,6 +139,15 @@ namespace GKHCalc.Service.Helper
             if (currentHour >= 0 && 4 >= currentHour)
                 return "Доброй ночи";
             return null;
+        }
+
+        public static void ViewMessageGood(string message, string caption) 
+        {
+            MessageBox.Show(message,caption,MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+        public static void ViewMessageError(string message, string caption)
+        {
+            MessageBox.Show(message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

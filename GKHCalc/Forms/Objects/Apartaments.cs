@@ -62,7 +62,6 @@ namespace GKHCalc.Forms
                     ImportantUserId.Enabled = HouseId.Enabled = user != null && user.TypeUser == 1;
                 }
             }
-
             enumListsMenu.ForEach((eMenu)=> {
                 apartamentMenu.Items.Add(eMenu.Localize);
             });
@@ -89,6 +88,7 @@ namespace GKHCalc.Forms
             ApartmentCurent.ImportantUserId = UserList[ImportantUserId.SelectedIndex].Id;
             ApartmentCurent.HouseId = HouseList[HouseId.SelectedIndex].Id;
             ObjectService.InsertOrUpdate(ApartmentCurent);
+            FormHelper.ViewMessageGood(Id != -1 ? "Квартира обновлена" : "Квартира сохранена", "Квартира");
             this.Close();
         }
 
@@ -144,11 +144,12 @@ namespace GKHCalc.Forms
                 if (Auth.User != null &&
                     Auth.User.Id > 0 &&
                     Auth.User.TypeUser == 0)
-                {
-                    EditButton.Enabled = !(MenuItem == "RegisteredUser");
+                {                    
                     DelButton.Enabled = false;
                     AddButton.Enabled = !(MenuItem == "RegisteredUser");
                 }
+
+                EditButton.Visible = !(MenuItem == "RegisteredUser");
             }
         }
 
@@ -160,6 +161,7 @@ namespace GKHCalc.Forms
         private void DelButton_Click(object sender, EventArgs e)
         {
             FormHelper.DeleteItem(dataGrid, MenuItem);
+            FormHelper.ViewMessageGood("Успешно удалено", "Удаление");
             GetData(null, null);
         }
 

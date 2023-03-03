@@ -18,7 +18,6 @@ namespace GKHCalc.Forms
         private string MenuItem = "Rates";
         private List<EnumList> enumListsMenuHouse = EnumExtensions.LocalizeListEMenuHouseItem();
 
-
         public House(int HouseId)
         {
             this.Id = HouseId;
@@ -59,7 +58,7 @@ namespace GKHCalc.Forms
         {
             if (
                 Addres.Text.ValidString("Нужно заполнить адрес") ||
-                PostCode.Text.ValidString("Незаполнен или не корректный индекс дома", 6)
+                PostCode.Text.ValidString("Незаполнен или не корректный индекс дома", 6, func: (str) => { return str.Length == 6; })
             )
             {
                 return;
@@ -67,6 +66,7 @@ namespace GKHCalc.Forms
             HouseCurent.Addres = Addres.Text;
             HouseCurent.PostCode = int.Parse(PostCode.Text);
             ObjectService.InsertOrUpdate(HouseCurent);
+            FormHelper.ViewMessageGood(Id == -1 ? "Дом сохранен" : "Дом обновлен", "Дом");
             this.Close();
         }
 
@@ -85,6 +85,7 @@ namespace GKHCalc.Forms
         private void btnDel_Click(object sender, EventArgs e)
         {
             FormHelper.DeleteItem(dataGrid, MenuItem);
+            FormHelper.ViewMessageGood("Успешно удалено", "Удаление");
             GetData(null, null);
         }
 

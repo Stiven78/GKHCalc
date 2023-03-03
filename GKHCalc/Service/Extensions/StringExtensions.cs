@@ -1,6 +1,6 @@
-﻿using System;
+﻿using GKHCalc.Service.Helper;
+using System;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 
 namespace GKHCalc.Service.Extensions
 {
@@ -35,6 +35,12 @@ namespace GKHCalc.Service.Extensions
                 return true;
             return false;
         }
+
+        public static bool IsNotWhitespace(this string str) 
+        {
+            return str.IndexOf(" ") == -1;
+        }
+
         public static bool ValidString(this string val, string Message, int CountSimbols = 0, Func<string, bool> func = null)
         {
             bool isValid = string.IsNullOrEmpty(val);
@@ -42,10 +48,9 @@ namespace GKHCalc.Service.Extensions
             isValid = isValid || (func != null && !func(val));
             if (isValid)
             {
-                MessageBox.Show(Message);
+                FormHelper.ViewMessageError(Message,"Ошибка");
                 return true;
             }
-
             return false;
         }
     }
